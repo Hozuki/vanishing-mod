@@ -8,29 +8,29 @@
 
 void CC_Reset_Achievements() {
 	if (!steamapicontext) {
-		Warning("Cannot find Steam API context.");
+		Warning("Cannot find Steam API context.\n");
 		return;
 	}
 
 	ISteamUserStats *stats = steamapicontext->SteamUserStats();
 
 	if (!stats) {
-		Warning("Cannot access Steam user stats interface.");
+		Warning("Cannot access Steam user stats interface.\n");
 		return;
 	}
 
 	const uint32 numAchievements = stats->GetNumAchievements();
 
-	Log("Counting %u achievements.", numAchievements);
+	Log("Counted %u achievements.\n", numAchievements);
 
 	for (uint32 i = 0; i < numAchievements; ++i) {
 		const char *achName = stats->GetAchievementName(i);
 		const bool b = stats->ClearAchievement(achName);
 
 		if (b) {
-			Log("Clearing achievement \"%s\" : successful", achName);
+			Log("Clearing achievement \"%s\" : successful\n", achName);
 		} else {
-			Warning("Clearing achievement \"%s\" : FAILED", achName);
+			Warning("Clearing achievement \"%s\" : FAILED\n", achName);
 		}
 	}
 }
