@@ -1,0 +1,29 @@
+version: 0.0.0.{build}
+image: Visual Studio 2013
+platform:
+  - x86
+configuration:
+  - Release
+build_script:
+  - cmd: build_vanishing.cmd
+after_build:
+  - cmd: del %APPVEYOR_BUILD_FOLDER%\sp\game\mod_vanishing\bin\*.pdb
+  - cmd: 7z a mod_vanishing.zip -r %APPVEYOR_BUILD_FOLDER%\sp\game\mod_vanishing\*
+  - cmd: copy mod_vanishing.zip mod_vanishing-latest.zip
+  - cmd: copy mod_vanishing.zip mod_vanishing-v%APPVEYOR_BUILD_VERSION%.zip
+test: off
+artifacts:
+  - path: mod_vanishing-v%APPVEYOR_BUILD_VERSION%.zip
+    name: WithVersion
+  - path: mod_vanishing-latest.zip
+    name: Static
+deploy:
+  - provider: GitHub
+    description: Vanishing Mod
+    auth_token:
+      secure: u+MFjjY665AT4PHJ2bFMINBLnnnwSj1jLnNeFZoWfeYbomTNSPOmdahffmZa+dRH
+    artifact: /mod_vanishing.+\.zip/
+    draft: false
+    prerelease: true
+    on:
+      appveyor_repo_tag: true
