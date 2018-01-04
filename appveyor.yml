@@ -5,7 +5,11 @@ platform:
 configuration:
   - Release
 build_script:
-  - cmd: build_vanishing.cmd
+  - cmd: cd
+  - cmd: cd sp\src\
+  - cmd: creategameprojects.bat
+  - cmd: msbuild games_vanishing.sln /verbosity:minimal
+  - cmd: cd ..\..\
 after_build:
   - cmd: del %APPVEYOR_BUILD_FOLDER%\sp\game\mod_vanishing\bin\*.pdb
   - cmd: 7z a mod_vanishing.zip -r %APPVEYOR_BUILD_FOLDER%\sp\game\mod_vanishing\*
