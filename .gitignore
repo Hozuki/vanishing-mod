@@ -20,6 +20,9 @@ ipch
 *.vcxproj
 *.sln
 
+!*_vanishing.sln
+!*_vanishing.vcxproj
+
 # OSX/Linux build products
 *.mak
 *.mak.vpc_crc
