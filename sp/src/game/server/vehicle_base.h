@@ -107,6 +107,8 @@ public:
 	void InputAction( inputdata_t &inputdata );
 	void InputHandBrakeOn( inputdata_t &inputdata );
 	void InputHandBrakeOff( inputdata_t &inputdata );
+	void InputDisableMotion( inputdata_t &inputdata );
+	void InputEnableMotion( inputdata_t &inputdata );
 
 	DECLARE_DATADESC();
 
