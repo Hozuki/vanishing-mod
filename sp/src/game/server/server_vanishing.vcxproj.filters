@@ -3447,6 +3447,8 @@
     <ClCompile Include="episodic\prop_scalable.cpp" />
     <ClCompile Include="episodic\vehicle_jeep_episodic.cpp" />
     <ClCompile Include="episodic\weapon_striderbuster.cpp" />
+    <ClCompile Include="..\shared\vanishing\achievements_vanishing.cpp" />
+    <ClCompile Include="reset_achievements.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\public\tier0\pointeroverride.asm">
