@@ -23,6 +23,9 @@ ipch
 [Dd]ebug*/
 [Rr]elease*/
 
+!*_vanishing.sln
+!*_vanishing.vcxproj
+
 # OSX/Linux build products
 *.DS_Store
 *.mak
