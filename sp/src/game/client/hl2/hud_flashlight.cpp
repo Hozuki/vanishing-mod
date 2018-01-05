@@ -96,8 +96,8 @@ void CHudFlashlight::SetFlashlightState( bool flashlightOn )
 	m_bFlashlightOn = flashlightOn;
 }
 
-#define WCHAR_FLASHLIGHT_ON  169
-#define WCHAR_FLASHLIGHT_OFF 174
+#define WCHAR_FLASHLIGHT_ON  ('f')
+#define WCHAR_FLASHLIGHT_OFF ('e')
 
 //-----------------------------------------------------------------------------
 // Purpose: draws the flashlight icon

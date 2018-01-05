@@ -1584,7 +1584,7 @@ void CNPC_FloorTurret::SetEyeState( eyeState_t state )
 	default:
 	case TURRET_EYE_SEE_TARGET: //Fade in and scale up
 		m_hEyeGlow->SetColor( 255, 0, 0 );
-		m_hEyeGlow->SetBrightness( 164, 0.1f );
+		m_hEyeGlow->SetBrightness( 230, 0.1f );
 		m_hEyeGlow->SetScale( 0.4f, 0.1f );
 		break;
 
