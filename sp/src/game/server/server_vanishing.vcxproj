@@ -263,6 +263,7 @@ exit 1
     <ClInclude Include="..\..\game\shared\ammodef.h" />
     <ClInclude Include="..\..\game\shared\base_playeranimstate.h" />
     <ClInclude Include="..\shared\playerspeak.h" />
+    <ClInclude Include="..\shared\SoundEmitterSystem.h" />
     <ClInclude Include="base_transmit_proxy.h" />
     <ClInclude Include="..\..\public\basehandle.h" />
     <ClInclude Include="basetempentity.h" />
