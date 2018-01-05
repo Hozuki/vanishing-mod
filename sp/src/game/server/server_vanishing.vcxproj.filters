@@ -1765,9 +1765,6 @@
     <ClInclude Include="..\shared\playerspeak.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\shared\SoundEmitterSystem.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gamedll_replay.cpp">
@@ -3455,12 +3452,7 @@
     <ClCompile Include="episodic\weapon_striderbuster.cpp" />
     <ClCompile Include="..\shared\vanishing\achievements_vanishing.cpp" />
     <ClCompile Include="reset_achievements.cpp" />
-    <ClCompile Include="..\shared\playerspeak.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="point_playerspeak.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="vanishing\point_playerspeak.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\public\tier0\pointeroverride.asm">
