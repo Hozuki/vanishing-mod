@@ -1885,6 +1885,12 @@
     </ClInclude>
     <ClInclude Include="episodic\episodic_screenspaceeffects.h" />
     <ClInclude Include="..\..\game\shared\episodic\npc_advisor_shared.h" />
+    <ClInclude Include="..\shared\playerspeak.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\SoundEmitterSystem.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mp3player.cpp">
@@ -3386,6 +3392,9 @@
     <ClCompile Include="episodic\c_weapon_hopwire.cpp" />
     <ClCompile Include="episodic\episodic_screenspaceeffects.cpp" />
     <ClCompile Include="episodic\flesh_internal_material_proxy.cpp" />
+    <ClCompile Include="..\shared\playerspeak.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\public\tier0\pointeroverride.asm">
