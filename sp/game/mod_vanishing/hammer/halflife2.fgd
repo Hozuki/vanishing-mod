@@ -4263,6 +4263,8 @@
 	// Inputs
 	input HandBrakeOn(void) : "Turns the handbrake on"
 	input HandBrakeOff(void): "Releases the handbrake"
+    input DisableMotion(void): "Disables physical motion"
+    input EnableMotion(void): "Enables physical motion"
 ]
 
 @PointClass base(BaseVehicle) studioprop() = prop_vehicle :

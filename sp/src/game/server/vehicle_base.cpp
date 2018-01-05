@@ -63,6 +63,8 @@ BEGIN_DATADESC( CPropVehicle )
 	DEFINE_INPUTFUNC( FIELD_FLOAT, "Action", InputAction ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "HandBrakeOn", InputHandBrakeOn ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "HandBrakeOff", InputHandBrakeOff ),
+	DEFINE_INPUTFUNC( FIELD_VOID, "DisableMotion", InputDisableMotion ),
+	DEFINE_INPUTFUNC( FIELD_VOID, "EnableMotion", InputEnableMotion ),
 
 END_DATADESC()
 
@@ -224,6 +226,22 @@ void CPropVehicle::InputHandBrakeOn( inputdata_t &inputdata )
 void CPropVehicle::InputHandBrakeOff( inputdata_t &inputdata )
 {
 	m_VehiclePhysics.ReleaseHandbrake();
+}
+
+void CPropVehicle::InputDisableMotion( inputdata_t &inputdata ) {
+	CFourWheelVehiclePhysics *physics = GetPhysics();
+
+	if (physics) {
+		physics->DisableMotion();
+	}
+}
+
+void CPropVehicle::InputEnableMotion( inputdata_t &inputdata ) {
+	CFourWheelVehiclePhysics *physics = GetPhysics();
+
+	if (physics) {
+		physics->EnableMotion();
+	}
 }
 
 //-----------------------------------------------------------------------------
