@@ -2476,7 +2476,7 @@ void CNPC_Manhack::StartEye( void )
 		else
 		{
 			m_pEyeGlow->SetTransparency( kRenderTransAdd, 255, 0, 0, 128, kRenderFxNoDissipation );
-			m_pEyeGlow->SetColor( 255, 0, 0 );
+			m_pEyeGlow->SetColor(0, 150, 255);
 		}
 
 		m_pEyeGlow->SetBrightness( 164, 0.1f );
@@ -2498,7 +2498,7 @@ void CNPC_Manhack::StartEye( void )
 		else
 		{
 			m_pLightGlow->SetTransparency( kRenderTransAdd, 255, 0, 0, 128, kRenderFxNoDissipation );
-			m_pLightGlow->SetColor( 255, 0, 0 );
+			m_pLightGlow->SetColor(0, 150, 255);
 		}
 
 		m_pLightGlow->SetBrightness( 164, 0.1f );
@@ -3199,7 +3199,7 @@ void CNPC_Manhack::SetEyeState( int state )
 			if ( m_pEyeGlow )
 			{
 				//Toggle our state
-				m_pEyeGlow->SetColor( 255, 128, 0 );
+				m_pLightGlow->SetColor( 0, 100, 255 );
 				m_pEyeGlow->SetScale( 0.15f, 0.1f );
 				m_pEyeGlow->SetBrightness( 164, 0.1f );
 				m_pEyeGlow->m_nRenderFX = kRenderFxStrobeFast;
@@ -3207,7 +3207,7 @@ void CNPC_Manhack::SetEyeState( int state )
 			
 			if ( m_pLightGlow )
 			{
-				m_pLightGlow->SetColor( 255, 128, 0 );
+				m_pLightGlow->SetColor( 0, 100, 255 );
 				m_pLightGlow->SetScale( 0.15f, 0.1f );
 				m_pLightGlow->SetBrightness( 164, 0.1f );
 				m_pLightGlow->m_nRenderFX = kRenderFxStrobeFast;
@@ -3229,7 +3229,7 @@ void CNPC_Manhack::SetEyeState( int state )
 				}
 				else
 				{
-					m_pEyeGlow->SetColor( 255, 0, 0 );
+					m_pEyeGlow->SetColor( 0, 150, 255 );
 				}
 
 				m_pEyeGlow->SetScale( 0.25f, 0.5f );
@@ -3245,7 +3245,7 @@ void CNPC_Manhack::SetEyeState( int state )
 				}
 				else
 				{
-					m_pLightGlow->SetColor( 255, 0, 0 );
+					m_pEyeGlow->SetColor( 0, 150, 255 );
 				}
 
 				m_pLightGlow->SetScale( 0.25f, 0.5f );

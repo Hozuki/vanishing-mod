@@ -119,6 +119,7 @@ ConVar	sv_noclipduringpause( "sv_noclipduringpause", "0", FCVAR_REPLICATED | FCV
 extern ConVar sv_maxunlag;
 extern ConVar sv_turbophysics;
 extern ConVar *sv_maxreplay;
+extern ConVar sv_can_pickup_stunstick;
 
 extern CServerGameDLL g_ServerGameDLL;
 
@@ -4753,9 +4754,23 @@ CBaseEntity	*g_pLastSpawn = NULL;
 CBaseEntity *FindPlayerStart(const char *pszClassName)
 {
 	#define SF_PLAYER_START_MASTER	1
+	#define SF_PLAYER_PICKUP_STUNSTICK 2
 	
 	CBaseEntity *pStart = gEntList.FindEntityByClassname(NULL, pszClassName);
 	CBaseEntity *pStartFirst = pStart;
+
+	if (pStart != NULL)
+	{
+		if (pStart->HasSpawnFlags(SF_PLAYER_PICKUP_STUNSTICK))
+		{
+			sv_can_pickup_stunstick.SetValue(1);
+		}
+		else 
+		{
+			sv_can_pickup_stunstick.SetValue(0);
+		}
+	}
+
 	while (pStart != NULL)
 	{
 		if (pStart->HasSpawnFlags(SF_PLAYER_START_MASTER))
