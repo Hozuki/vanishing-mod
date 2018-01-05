@@ -76,6 +76,7 @@ extern ConVar autoaim_max_dist;
 #define TIME_IGNORE_FALL_DAMAGE 10.0
 
 extern int gEvilImpulse101;
+extern ConVar sv_can_pickup_stunstick;
 
 ConVar sv_autojump( "sv_autojump", "0" );
 
@@ -2632,9 +2633,12 @@ bool CHL2_Player::Weapon_CanUse( CBaseCombatWeapon *pWeapon )
 #ifndef HL2MP	
 	if ( pWeapon->ClassMatches( "weapon_stunstick" ) )
 	{
-		if ( ApplyBattery( 0.5 ) )
-			UTIL_Remove( pWeapon );
-		return false;
+		if (sv_can_pickup_stunstick.GetBool() == false)
+		{
+			if (ApplyBattery(0.5))
+				UTIL_Remove(pWeapon);
+			return false;
+		}
 	}
 #endif
 

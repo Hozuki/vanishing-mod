@@ -262,6 +262,8 @@ exit 1
     <ClInclude Include="..\..\public\mathlib\amd3dx.h" />
     <ClInclude Include="..\..\game\shared\ammodef.h" />
     <ClInclude Include="..\..\game\shared\base_playeranimstate.h" />
+    <ClInclude Include="..\shared\playerspeak.h" />
+    <ClInclude Include="..\shared\SoundEmitterSystem.h" />
     <ClInclude Include="base_transmit_proxy.h" />
     <ClInclude Include="..\..\public\basehandle.h" />
     <ClInclude Include="basetempentity.h" />
@@ -833,7 +835,9 @@ exit 1
     <ClInclude Include="toolframework_server.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\shared\playerspeak.cpp" />
     <ClCompile Include="..\shared\vanishing\achievements_vanishing.cpp" />
+    <ClCompile Include="point_playerspeak.cpp" />
     <ClCompile Include="reset_achievements.cpp" />
     <ClCompile Include="gamedll_replay.cpp" />
     <ClCompile Include="..\..\game\shared\achievement_saverestore.cpp" />
