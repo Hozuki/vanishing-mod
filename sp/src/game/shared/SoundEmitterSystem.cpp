@@ -1522,3 +1522,29 @@ void CBaseEntity::PrefetchSound( const char *name )
 	 enginesound->PrefetchSound( name );
 }
 
+#ifdef CLIENT_DLL
+CON_COMMAND_F(playerspeak, "Emit specific sound.\n\tArguments: <sound name>\n", FCVAR_CHEAT)
+{
+	if (args.ArgC() != 2)
+	{
+		Msg("Usage:\n	playerspeak <sound name>\n");
+		return;
+	}
+
+	C_BasePlayer * player = C_BasePlayer::GetLocalPlayer();
+
+	if (player)
+	{
+		float flDuration = 0.0f;
+		CPASAttenuationFilter filter(player, args.Arg(1));
+		EmitSound_t params;
+		params.m_pSoundName = args.Arg(1);
+		params.m_flSoundTime = 0.0f;
+		params.m_pflSoundDuration = &flDuration;
+		params.m_bWarnOnDirectWaveReference = true;
+
+		g_SoundEmitterSystem.EmitSound(filter, player->entindex(), params);
+	}
+
+}
+#endif
