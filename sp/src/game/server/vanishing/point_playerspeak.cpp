@@ -4,18 +4,20 @@
 
 #include "cbase.h"
 #include "entityinput.h"
-#include "playerspeak.h"
-
+#include "ai_speech.h"
 #include "game.h"
+#include "recipientfilter.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+extern CBasePlayer *GetLocalPlayer();
+
 // Make player talk.
 class CPointPlayerSpeak : public CLogicalEntity {
-	
+
 	DECLARE_CLASS(CPointPlayerSpeak, CLogicalEntity);
-	
+
 	public:
 
 	virtual void Spawn();
@@ -33,7 +35,6 @@ class CPointPlayerSpeak : public CLogicalEntity {
 
 	DECLARE_DATADESC();
 };
-
 
 LINK_ENTITY_TO_CLASS(point_playerspeak, CPointPlayerSpeak);
 
@@ -65,10 +66,37 @@ void CPointPlayerSpeak::InputSpeak(inputdata_t &inputdata) {
 #endif
 
 	const char *soundname = inputdata.value.String();
-	const float volume = suitvolume.GetFloat();
+	float volume = suitvolume.GetFloat();
 	const int pitch = PITCH_NORM;
 
-	UTIL_PlayerSpeak(soundname, volume, pitch);
+#define RANDOMIZE_PITCH 0
+
+#if RANDOMIZE_PITCH
+	if (random->RandomInt(0, 1)) {
+		pitch = random->RandomInt(0, 6) + 98;
+	}
+#endif
+
+	CBasePlayer *player = GetLocalPlayer();
+
+	// If friendlies are talking, reduce the volume of the suit
+	if (!g_AIFriendliesTalkSemaphore.IsAvailable(player)) {
+		volume *= 0.3;
+	}
+
+	if (volume <= 0.05) {
+		// Inaudible
+		return;
+	}
+
+	CRecipientFilter filter;
+	filter.AddRecipient(player);
+
+	UserMessageBegin(filter, "HudSentenceRequested");
+	WRITE_STRING(soundname);
+	WRITE_FLOAT(volume);
+	WRITE_LONG(pitch);
+	MessageEnd();
 }
 
 //------------------------------------------------------------------------------
@@ -84,7 +112,6 @@ void CPointPlayerSpeak::InputEnable(inputdata_t &inputdata) {
 void CPointPlayerSpeak::InputDisable(inputdata_t &inputdata) {
 	m_bDisabled = true;
 }
-
 
 //------------------------------------------------------------------------------
 // Purpose: Toggles the enabled/disabled state of the relay.

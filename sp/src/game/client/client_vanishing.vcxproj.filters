@@ -1888,12 +1888,12 @@
     <ClInclude Include="..\shared\playerspeak.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="hud_target.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\shared\MurmurHash3.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="vanishing\hud_target.h" />
+    <ClInclude Include="vanishing\hud_playerspeak.h" />
+    <ClInclude Include="vanishing\playerspeak.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mp3player.cpp">
@@ -3395,14 +3395,14 @@
     <ClCompile Include="episodic\c_weapon_hopwire.cpp" />
     <ClCompile Include="episodic\episodic_screenspaceeffects.cpp" />
     <ClCompile Include="episodic\flesh_internal_material_proxy.cpp" />
-    <ClCompile Include="hud_target.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\shared\MurmurHash3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\shared\vanishing\achievements_vanishing.cpp" />
     <ClCompile Include="..\shared\vanishing\vanishing_usermessages.cpp" />
+    <ClCompile Include="vanishing\hud_playerspeak.cpp" />
+    <ClCompile Include="vanishing\hud_target.cpp" />
+    <ClCompile Include="vanishing\playerspeak.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\public\tier0\pointeroverride.asm">

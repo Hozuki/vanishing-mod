@@ -1,4 +1,3 @@
-
 #ifndef __VANISHING_CLIENT_HUD_TARGET_H__
 #define __VANISHING_CLIENT_HUD_TARGET_H__
 
@@ -16,8 +15,6 @@ class CHudTarget : public CHudElement, public vgui::Panel {
 	DECLARE_CLASS_SIMPLE(CHudTarget, vgui::Panel);
 
 	public:
-
-	typedef int32 DictIndexType;
 
 	CHudTarget(const char *pszElementName);
 
@@ -62,19 +59,6 @@ class CHudTarget : public CHudElement, public vgui::Panel {
 	Vector *m_pTargets;
 	bool *m_pTargetEnabled;
 	ViewItem *m_pItems;
-
-	public:
-
-	struct TargetStateMessage {
-		int32 index;
-		int32 enabled;
-		float x, y, z;
-	};
-
-	struct TargetHeaderMessage {
-		int32 index;
-		char *header;
-	};
 
 };
 
