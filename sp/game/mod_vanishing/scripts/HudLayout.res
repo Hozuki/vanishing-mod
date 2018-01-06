@@ -624,6 +624,13 @@
       
       "PaintBackgroundType"   "2"
     }
+    
+    HudPlayerSpeak
+    {
+      "fieldName" "HudPlayerSpeak"
+      "visible" "0"
+      "enabled" "1"
+    }
 
 	HudCredits
 	{

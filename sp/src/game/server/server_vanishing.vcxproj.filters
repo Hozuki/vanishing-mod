@@ -1762,9 +1762,6 @@
     <ClInclude Include="hl2\npc_vortigaunt_episodic.h" />
     <ClInclude Include="episodic\vehicle_jeep_episodic.h" />
     <ClInclude Include="episodic\weapon_striderbuster.h" />
-    <ClInclude Include="..\shared\playerspeak.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\shared\MurmurHash3.h">
       <Filter>Source Files</Filter>
     </ClInclude>

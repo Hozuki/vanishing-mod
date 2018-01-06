@@ -106,7 +106,11 @@ void CHudTarget::Paint() {
 }
 
 void CHudTarget::MsgFunc_HudTargetStateUpdated(bf_read &msg) const {
-	TargetStateMessage m = { 0 };
+	struct TargetStateMessage {
+		int32 index;
+		int32 enabled;
+		float x, y, z;
+	} m = { 0 };
 
 	m.index = msg.ReadLong();
 	m.enabled = msg.ReadLong();
@@ -123,7 +127,10 @@ void CHudTarget::MsgFunc_HudTargetStateUpdated(bf_read &msg) const {
 }
 
 void CHudTarget::MsgFunc_HudTargetHeaderUpdated(bf_read &msg) const {
-	TargetHeaderMessage m = { 0 };
+	struct TargetHeaderMessage {
+		int32 index;
+		char *header;
+	} m = { 0 };
 
 	m.index = msg.ReadLong();
 	bool overflow;

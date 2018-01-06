@@ -502,7 +502,6 @@ exit 1
     <ClInclude Include="hud_macros.h" />
     <ClInclude Include="hud_numericdisplay.h" />
     <ClInclude Include="hud_pdump.h" />
-    <ClInclude Include="hud_target.h" />
     <ClInclude Include="hud_vehicle.h" />
     <ClInclude Include="hudelement.h" />
     <ClInclude Include="hudtexturehandle.h" />
@@ -576,6 +575,9 @@ exit 1
     <ClInclude Include="text_message.h" />
     <ClInclude Include="timedevent.h" />
     <ClInclude Include="toggletextureproxy.h" />
+    <ClInclude Include="vanishing\hud_playerspeak.h" />
+    <ClInclude Include="vanishing\hud_target.h" />
+    <ClInclude Include="vanishing\playerspeak.h" />
     <ClInclude Include="vgui_basepanel.h" />
     <ClInclude Include="vgui_bitmapbutton.h" />
     <ClInclude Include="vgui_bitmapimage.h" />
@@ -873,7 +875,6 @@ exit 1
     <ClCompile Include="..\shared\MurmurHash3.cpp" />
     <ClCompile Include="..\shared\vanishing\achievements_vanishing.cpp" />
     <ClCompile Include="..\shared\vanishing\vanishing_usermessages.cpp" />
-    <ClCompile Include="hud_target.cpp" />
     <ClCompile Include="mp3player.cpp" />
     <ClCompile Include="replay\cdll_replay.cpp" />
     <ClCompile Include="replay\replaycamera.cpp" />
@@ -1274,6 +1275,9 @@ exit 1
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\..\game\shared\vehicle_viewblend_shared.cpp" />
+    <ClCompile Include="vanishing\hud_playerspeak.cpp" />
+    <ClCompile Include="vanishing\hud_target.cpp" />
+    <ClCompile Include="vanishing\playerspeak.cpp" />
     <ClCompile Include="vgui_avatarimage.cpp" />
     <ClCompile Include="vgui_basepanel.cpp" />
     <ClCompile Include="vgui_bitmapbutton.cpp" />
