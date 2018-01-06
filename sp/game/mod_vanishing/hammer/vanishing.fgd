@@ -1,0 +1,18 @@
+@include "base.fgd"
+
+@PointClass base(Targetname) size(-8 -8 -8, 8 8 8) = point_playerspeak : 
+	"Let the player say something."
+[
+    
+    StartDisabled(choices) : "Disabled when starts?" : 0 : "Disabled when starts" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+    
+    input Speak(string) : "Speak the sentence!"
+	input Enable(void) : "Enable."
+    input Disable(void) : "Disable."
+    input Toggle(void) : "Toggle enabled/disabled status."
+    
+]
