@@ -6,10 +6,10 @@
 #include "entityinput.h"
 #include "playerspeak.h"
 
-// memdbgon must be the last include file in a .cpp file!!!
-#include "tier0/memdbgon.h"
 #include "game.h"
 
+// memdbgon must be the last include file in a .cpp file!!!
+#include "tier0/memdbgon.h"
 
 // Make player talk.
 class CPointPlayerSpeak : public CLogicalEntity {
@@ -61,7 +61,7 @@ void CPointPlayerSpeak::InputSpeak(inputdata_t &inputdata) {
 		return;
 	}
 #ifdef _DEBUG
-	Msg("CPointPlayerSpeak::InputSpeak(%s)\n", inputdata.value.String());
+	Msg("%s(%s)\n", __FUNCTION__, inputdata.value.String());
 #endif
 
 	const char *soundname = inputdata.value.String();

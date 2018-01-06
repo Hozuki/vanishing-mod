@@ -16,3 +16,28 @@
     input Toggle(void) : "Toggle enabled/disabled status."
     
 ]
+
+@PointClass base(Parentname, Targetname) size(-8 -8 -8, 8 8 8) = info_hud_target : 
+	"HUD target."
+[
+    
+    Header(string) : "Header" : "#Vanishing.Hud.Target" : "Header of the target prompt."
+    Channel(choices) : "Channel" : 0 : "The channel to use. You cannot use a channel if that channel is in use, or the behavior is undefined." +
+        " This field can contain at most HUD_TARGET_MAX_TARGETS (currently 10) channels." =
+    [
+        0 : "Channel 1"
+        1 : "Channel 2"
+        2 : "Channel 3"
+        3 : "Channel 4"
+        4 : "Channel 5"
+        5 : "Channel 6"
+        6 : "Channel 7"
+        7 : "Channel 8"
+        8 : "Channel 9"
+        9 : "Channel 10"
+    ]
+    
+    input ShowTarget(void) : "Show this target on HUD."
+	input HideTarget(void) : "Hide this target on HUD."
+    
+]
