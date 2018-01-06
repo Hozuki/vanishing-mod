@@ -1765,6 +1765,9 @@
     <ClInclude Include="..\shared\playerspeak.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\shared\MurmurHash3.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gamedll_replay.cpp">
@@ -3453,6 +3456,11 @@
     <ClCompile Include="..\shared\vanishing\achievements_vanishing.cpp" />
     <ClCompile Include="reset_achievements.cpp" />
     <ClCompile Include="vanishing\point_playerspeak.cpp" />
+    <ClCompile Include="..\shared\MurmurHash3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\vanishing\vanishing_usermessages.cpp" />
+    <ClCompile Include="vanishing\info_hud_target.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\public\tier0\pointeroverride.asm">

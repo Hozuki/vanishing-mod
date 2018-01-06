@@ -1353,13 +1353,10 @@ CON_COMMAND_F(playerspeak, "Emit specific sound.\n\tArguments: <sound name> <vol
 }
 #endif
 
-void UTIL_PlayerSpeak(const char *soundname, float volume, int pitch, float soundtime) {
-#ifdef CLIENT_DLL
-	C_BasePlayer *player = C_BasePlayer::GetLocalPlayer();
-#else
-	CBasePlayer *player = UTIL_GetLocalPlayer();
-#endif
+extern CBasePlayer *GetLocalPlayer();
 
+void UTIL_PlayerSpeak(const char *soundname, float volume, int pitch, float soundtime) {
+	CBasePlayer *player = GetLocalPlayer();
 
 	if (player) {
 #ifdef CLIENT_DLL

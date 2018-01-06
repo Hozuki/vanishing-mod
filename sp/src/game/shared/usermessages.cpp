@@ -12,6 +12,9 @@
 #include "tier0/memdbgon.h"
 
 void RegisterUserMessages( void );
+#ifdef VANISHING_DLL
+void RegisterUserMessages_Vanishing();
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: Force registration on .dll load
@@ -21,6 +24,9 @@ CUserMessages::CUserMessages()
 {
 	// Game specific registration function;
 	RegisterUserMessages();
+#ifdef VANISHING_DLL
+	RegisterUserMessages_Vanishing();
+#endif
 }
 
 CUserMessages::~CUserMessages()
