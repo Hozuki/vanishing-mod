@@ -2618,6 +2618,7 @@
 	spawnflags(flags) =
 	[
 		1: "Master (Has priority if multiple info_player_starts exist)" : 0
+		2: "Player can pickup stunstick." : 0
 	]
 ]
 
