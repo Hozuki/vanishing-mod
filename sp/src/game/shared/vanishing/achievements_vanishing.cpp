@@ -1,10 +1,3 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
-//
-// Purpose: 
-//
-//=============================================================================
-
-
 #include "cbase.h"
 #include "achievementmgr.h"
 #include "baseachievement.h"
@@ -14,8 +7,8 @@
 #define ACHIEVEMENT_VAN_FINISH_CHAPTER_1 501
 #define ACHIEVEMENT_VAN_FINISH_CHAPTER_2 502
 #define ACHIEVEMENT_VAN_FINISH_CHAPTER_3 503
-#define ACHIEVEMENT_VAN_ESCAPE_TRIPWIRE_TRPAS 504
-#define ACHIEVEMENT_VAN_SIX_ROLLERMINE_TAKE_DOWN 505
+#define ACHIEVEMENT_VAN_ESCAPE_TRIPWIRE_TRAPS 504
+#define ACHIEVEMENT_VAN_MASTER_OF_PARABOLA 505
 #define ACHIEVEMENT_VAN_ALL_GUNSHIPS_NO_MISTAKE 506
 #define ACHIEVEMENT_VAN_THREE_BARNACLES 507
 #define ACHIEVEMENT_VAN_BATTERY_PUZZLE 508
@@ -37,12 +30,84 @@
 #define ACHIEVEMENT_VAN_DJ_DIE_HARD 557
 #define ACHIEVEMENT_VAN_DJ_MISER 558
 
+class CAchievementVanishingMasterOfParabola : public CFailableAchievement {
+
+	DECLARE_CLASS(CAchievementVanishingMasterOfParabola, CFailableAchievement);
+
+	public:
+
+	CAchievementVanishingMasterOfParabola() {
+		m_iSpawnedCount = 0;
+	}
+
+	protected:
+
+	void Init() override {
+		SetFlags(ACH_LISTEN_MAP_EVENTS | ACH_SAVE_WITH_GAME);
+		SetGoal(1);
+		SetMapNameFilter("v2_base_01");
+	}
+
+	void ListenForEvents() override {
+		ListenForGameEvent("van_rollermine_spawned");
+	}
+
+	void FireGameEvent_Internal(IGameEvent *event) override {
+		if (Q_strcmp(event->GetName(), "van_rollermine_spawned")) {
+			return;
+		}
+
+		++m_iSpawnedCount;
+
+#ifdef _DEBUG
+		Log("%s: current spawn count = %d.\n", __FUNCTION__, m_iSpawnedCount);
+#endif
+	}
+
+	const char *GetActivationEventName() override {
+		return "VAN_MASTER_OF_PARABOLA_START";
+	}
+
+	const char *GetEvaluationEventName() override {
+		return "VAN_MASTER_OF_PARABOLA_END";
+	}
+
+	void PostRestoreSavedGame() override {
+		// Reset the spawn count since we cannot (de)serialize during S/L.
+		m_iSpawnedCount = 0;
+
+		BaseClass::PostRestoreSavedGame();
+	}
+
+	void OnEvaluationEvent() override {
+		// Notes:
+		// In the map (.vmf) this is implemented by a counter. When the counter hits 5, the door to the next area opens.
+		// So why is here "not equal" instead of "larger than"? Can there be tolerance?
+		// It is designed to prevent save-load cheating, i.e. saving the game after each success, and loading after each failure.
+		// So in PostRestoreSavedGame, the counter resets. If you had successful hits before but saved and reloaded the game, the counter will become 0.
+		// And finally, the total count will be smaller than 5.
+		// So although the description text says "no more than 5", we can only handle "exactly 5" due to the flaw of Source achievement S/L functions.
+		// And sadly, no, no tolerance accepted.
+		// This is also a failsafe for forgetting to put ModEvents.res into resources directory.
+		if (m_iSpawnedCount != 5) {
+			SetFailed();
+		}
+
+		BaseClass::OnEvaluationEvent();
+	}
+
+	private:
+
+	int m_iSpawnedCount;
+
+};
+
 // achievements which are won by a map event firing once
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_VAN_FINISH_CHAPTER_1, "VAN_FINISH_CHAPTER_1", 10);
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_VAN_FINISH_CHAPTER_2, "VAN_FINISH_CHAPTER_2", 10);
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_VAN_FINISH_CHAPTER_3, "VAN_FINISH_CHAPTER_3", 10);
-DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_VAN_ESCAPE_TRIPWIRE_TRPAS, "VAN_PRECISE_OPERATION", 5);
-DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_VAN_SIX_ROLLERMINE_TAKE_DOWN, "VAN_MASTER_OF_PARABOLA", 10);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_VAN_ESCAPE_TRIPWIRE_TRAPS, "VAN_PRECISE_OPERATION", 5);
+DECLARE_ACHIEVEMENT(CAchievementVanishingMasterOfParabola, ACHIEVEMENT_VAN_MASTER_OF_PARABOLA, "VAN_MASTER_OF_PARABOLA", 10);
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_VAN_ALL_GUNSHIPS_NO_MISTAKE, "VAN_BETTER_THAN_FREEMAN", 10);
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_VAN_THREE_BARNACLES, "VAN_BON_APPETITE", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_VAN_BATTERY_PUZZLE, "VAN_RIDE_THE_WAVES", 5);

@@ -3458,6 +3458,7 @@
     </ClCompile>
     <ClCompile Include="..\shared\vanishing\vanishing_usermessages.cpp" />
     <ClCompile Include="vanishing\info_hud_target.cpp" />
+    <ClCompile Include="vanishing\logic_custom_event.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\public\tier0\pointeroverride.asm">

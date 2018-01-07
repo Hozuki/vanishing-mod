@@ -1,4 +1,4 @@
-//====== Copyright © 1996-2005, Valve Corporation, All rights reserved. =======
+//====== Copyright ?1996-2005, Valve Corporation, All rights reserved. =======
 //
 // Purpose: Half-Life 2 game definition file (.fgd) 
 //
@@ -4008,6 +4008,9 @@
 	
 	AchievementEvent(choices) : "Achievement Event" : 0 : "Named event is sent to the achievement system when this entity receives a 'FireEvent' input." =
 	[
+        "ACHIEVEMENT_EVENT_VAN_MASTER_OF_PARABOLA_START"        : "[V] Master of Parabola (start)"
+        "ACHIEVEMENT_EVENT_VAN_MASTER_OF_PARABOLA_END"          : "[V] Master of Parabola (end)"
+
 		"ACHIEVEMENT_EVENT_HL2_HIT_CANCOP_WITHCAN"				: "[HL2] Hit the trashcan cop with the can."
 		"ACHIEVEMENT_EVENT_HL2_PUT_CANINTRASH"					: "[HL2] Put the can in the trash."
 		"ACHIEVEMENT_EVENT_HL2_ESCAPE_APARTMENTRAID"			: "[HL2] Escape the apartment block raid."

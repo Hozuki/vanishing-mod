@@ -41,3 +41,11 @@
 	input HideTarget(void) : "Hide this target on HUD."
     
 ]
+
+@PointClass base(Targetname) size(-8 -8 -8, 8 8 8) = logic_custom_event : 
+	"Fires custom events."
+[
+    
+    input FireEvent(string) : "Fires a custom event."
+    
+]
