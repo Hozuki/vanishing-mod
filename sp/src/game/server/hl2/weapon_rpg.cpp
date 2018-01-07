@@ -36,6 +36,10 @@
 	extern int g_interactionPlayerLaunchedRPG;
 #endif
 
+#ifdef VANISHING_DLL
+#include "baseachievement.h"
+#endif
+
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -47,6 +51,10 @@ ConVar rpg_missle_use_custom_detonators( "rpg_missle_use_custom_detonators", "1"
 #define APC_MISSILE_DAMAGE	sk_apc_missile_damage.GetFloat()
 
 const char *g_pLaserDotThink = "LaserThinkContext";
+
+#ifdef VANISHING_DLL
+extern CFailableAchievement *g_pAchievementBetterThanFreeman;
+#endif
 
 //-----------------------------------------------------------------------------
 // Laser Dot
@@ -332,6 +340,13 @@ void CMissile::ShotDown( void )
 		m_hOwner->NotifyRocketDied();
 		m_hOwner = NULL;
 	}
+
+#ifdef VANISHING_DLL
+	// It is shot down. Definitely failed the achievement.
+	if (g_pAchievementBetterThanFreeman->IsActive()) {
+		g_pAchievementBetterThanFreeman->SetFailed();
+	}
+#endif
 }
 
 
@@ -378,6 +393,26 @@ void CMissile::Explode( void )
 		m_hOwner->NotifyRocketDied();
 		m_hOwner = NULL;
 	}
+
+#ifdef VANISHING_DLL
+	if (g_pAchievementBetterThanFreeman->IsActive()) {
+		const int iEntity = tr.GetEntityIndex();
+		if (iEntity < 0) {
+			// Hitting things other than an entity.
+			g_pAchievementBetterThanFreeman->SetFailed();
+		} else {
+			CBaseEntity *pEntity = UTIL_EntityByIndex(iEntity);
+			if (!pEntity) {
+				g_pAchievementBetterThanFreeman->SetFailed();
+			} else {
+				// Not hitting gunship, then no achievement.
+				if (pEntity->Classify() != CLASS_COMBINE_GUNSHIP) {
+					g_pAchievementBetterThanFreeman->SetFailed();
+				}
+			}
+		}
+	}
+#endif
 
 	StopSound( "Missile.Ignite" );
 	UTIL_Remove( this );

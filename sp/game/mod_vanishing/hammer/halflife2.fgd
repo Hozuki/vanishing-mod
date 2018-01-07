@@ -1577,6 +1577,12 @@
 
 @NPCClass base(BaseNPC) studio("models/Zombie/Classic.mdl") = npc_zombie : "Zombie"
 [
+
+    spawnflags(Flags) = 
+	[
+		65536 : "Counts for achievement 'Shhhh'" : 0
+	]
+
 ]
 
 @NPCClass base(BaseNPC) studio("models/Zombie/Classic_torso.mdl") = npc_zombie_torso : "Zombie Torso"
