@@ -1,7 +1,3 @@
-//========= Copyright ?1996-2005, Valve Corporation, All rights reserved. ====
-//	
-//	Defines a logical entity which passes achievement related events to the gamerules system.
-
 #include "cbase.h"
 #include "entityinput.h"
 #include "recipientfilter.h"
@@ -11,7 +7,7 @@
 
 extern CBasePlayer *GetLocalPlayer();
 
-// Make player talk.
+// Shows/hides a target on HUD.
 class CInfoHudTarget : public CLogicalEntity {
 
 	DECLARE_CLASS(CInfoHudTarget, CLogicalEntity);
