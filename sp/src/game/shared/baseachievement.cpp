@@ -706,8 +706,16 @@ void CFailableAchievement::OnEvaluationEvent()
 	
 	if ( cc_achievement_debug.GetInt() )
 	{
-		Msg( "Failable achievement %s has been evaluated (%s), now inactive\n", GetName(), m_bFailed ? "FAILED" : "AWARDED" );
+		// Here, we introduced a third state: Hibernated.
+		// It is for our multiple-failable achievements (e.g. "Better than Freeman").
+		// The Hibernated state means this time we succeeded, but we have not reached our final goal.
+		const char *pszState = m_bFailed ? "FAILED" : (IsAchieved() ? "AWARDED" : "HIBERNATED");
+		Msg( "Failable achievement %s has been evaluated (%s), now inactive\n", GetName(), pszState );
 	}
+
+	// Hey Valve guys, you missed this!
+	// We need this to wait for next activation.
+	m_bActivated = false;
 }
 
 
