@@ -71,6 +71,10 @@ ConVar g_debug_antlion_worker( "g_debug_antlion_worker", "0" );
 
 extern ConVar bugbait_radius;
 
+#ifdef VANISHING_DLL
+ConVar antlions_always_dissolve("g_antlions_always_dissolve", "1", FCVAR_GAMEDLL, "Antlions always dissolve, not creating any gibs, except when hit by vehicles.");
+#endif
+
 int AE_ANTLION_WALK_FOOTSTEP;
 int AE_ANTLION_MELEE_HIT1;
 int AE_ANTLION_MELEE_HIT2;
@@ -629,6 +633,12 @@ void CNPC_Antlion::Event_Killed( const CTakeDamageInfo &info )
 		CPASAttenuationFilter filter( this );
 		EmitSound( filter, entindex(), "NPC_Antlion.RunOverByVehicle" );
 	}
+
+#ifdef VANISHING_DLL
+	if (antlions_always_dissolve.GetBool()) {
+		this->Dissolve(NULL, gpGlobals->curtime, false, ENTITY_DISSOLVE_NORMAL);
+	}
+#endif
 
 	// Stop our zap effect!
 	SetContextThink( NULL, gpGlobals->curtime, "ZapThink" );
@@ -3959,6 +3969,13 @@ void CNPC_Antlion::GatherEnemyConditions( CBaseEntity *pEnemy )
 //-----------------------------------------------------------------------------
 bool CNPC_Antlion::ShouldGib( const CTakeDamageInfo &info )
 {
+#ifdef VANISHING_DLL
+	// In Vanishing, use this (esp. in lq_city21_after) to avoid too many antilon gibs.
+	if (antlions_always_dissolve.GetBool()) {
+		return false;
+	}
+#endif
+
 	// If we're being hoisted, we only want to gib when the barnacle hurts us with his bite!
 	if ( IsEFlagSet( EFL_IS_BEING_LIFTED_BY_BARNACLE ) )
 	{
