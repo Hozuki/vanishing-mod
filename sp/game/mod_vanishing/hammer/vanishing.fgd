@@ -49,3 +49,23 @@
     input FireEvent(string) : "Fires a custom event."
     
 ]
+
+@PointClass base(Targetname) size(-8 -8 -8, 8 8 8) = logic_achievement_increment : 
+	"Customize achievement increments."
+[
+    
+    Achievement(choices) : "Achievement" : "" : "Name of the achievement to increment. No 'ACHIEVEMENT_EVENT'." =
+    [
+        "VAN_DJ_FINANCIAL_FREEDOM"        : "[V-DJ] Financial Freedom"
+        "VAN_DJ_WORTH_IT"                 : "[V-DJ] Worth It"
+        "VAN_DJ_EXPENSES_PAY_OFF"         : "[V-DJ] Expenses Pay Off"
+        "VAN_DJ_SEEMS_PROMISING"          : "[V-DJ] Seems Promising"
+        "VAN_DJ_PRIDE_OF_THE_COMBINE"     : "[V-DJ] Pride of the Combine"
+    ]
+    
+    Count(integer) : "Count" : 1 : "Default count."
+    
+    input Increment(void) : "Increment the achievement by the count specified in 'Count' field."
+    input IncrementBy(integer) : "Increment the achievement by a specific count."
+    
+]

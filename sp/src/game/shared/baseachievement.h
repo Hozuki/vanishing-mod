@@ -157,6 +157,7 @@ protected:
 	bool		m_bShowOnHUD;							// if set, the player wants this achievement pinned to the HUD
 
 	friend class CAchievementMgr;
+	friend class CAchievementHelper;
 public:
 	DECLARE_DATADESC();
 };
