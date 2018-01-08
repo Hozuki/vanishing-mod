@@ -22,4 +22,8 @@
     "van_rollermine_spawned"
     {
     }
+    
+    "van_dj_point_spent"
+    {
+    }
 }

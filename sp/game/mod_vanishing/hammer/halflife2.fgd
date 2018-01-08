@@ -1580,7 +1580,8 @@
 
     spawnflags(Flags) = 
 	[
-		65536 : "Counts for achievement 'Shhhh'" : 0
+		65536  : "Counts for achievement 'Shhhh'" : 0
+        131072 : "Counts for achievement 'Count Again'" : 0
 	]
 
 ]
@@ -4014,8 +4015,15 @@
 	
 	AchievementEvent(choices) : "Achievement Event" : 0 : "Named event is sent to the achievement system when this entity receives a 'FireEvent' input." =
 	[
+        "ACHIEVEMENT_EVENT_VAN_FINISH_CHAPTER_1"                : "[V] Finish Chapter 1"
+        "ACHIEVEMENT_EVENT_VAN_FINISH_CHAPTER_2"                : "[V] Finish Chapter 2"
+        "ACHIEVEMENT_EVENT_VAN_FINISH_CHAPTER_3"                : "[V] Finish Chapter 3"
+        "ACHIEVEMENT_EVENT_VAN_PRECISE_OPERATION"               : "[V] Precise Operation"
         "ACHIEVEMENT_EVENT_VAN_MASTER_OF_PARABOLA_START"        : "[V] Master of Parabola (start)"
         "ACHIEVEMENT_EVENT_VAN_MASTER_OF_PARABOLA_END"          : "[V] Master of Parabola (end)"
+        "ACHIEVEMENT_EVENT_VAN_BETTER_THAN_FREEMEN_START"       : "[V] Better than Freeman (start)"
+        "ACHIEVEMENT_EVENT_VAN_BETTER_THAN_FREEMAN_END"         : "[V] Better than Freeman (end)"
+        "ACHIEVEMENT_EVENT_VAN_RIDE_THE_WAVES"                  : "[V] Ride the Waves"
 
 		"ACHIEVEMENT_EVENT_HL2_HIT_CANCOP_WITHCAN"				: "[HL2] Hit the trashcan cop with the can."
 		"ACHIEVEMENT_EVENT_HL2_PUT_CANINTRASH"					: "[HL2] Put the can in the trash."
