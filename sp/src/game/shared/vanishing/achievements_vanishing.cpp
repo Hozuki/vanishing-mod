@@ -107,8 +107,6 @@ class CAchievementVanishingMasterOfParabola : public CFailableAchievement {
 
 };
 
-CFailableAchievement *g_pAchievementBetterThanFreeman = nullptr;
-
 // TODO: not verified.
 class CAchievementVanishingBetterThanFreeman : public CFailableAchievement {
 
@@ -117,12 +115,6 @@ class CAchievementVanishingBetterThanFreeman : public CFailableAchievement {
 	public:
 
 	void Init() override {
-		if (g_pAchievementBetterThanFreeman) {
-			Warning("%s: another instance exists!\n", __FUNCTION__);
-		} else {
-			g_pAchievementBetterThanFreeman = this;
-		}
-
 		SetFlags(ACH_LISTEN_MAP_EVENTS | ACH_SAVE_WITH_GAME);
 		SetGoal(5);
 	}
