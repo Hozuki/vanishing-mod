@@ -10,7 +10,7 @@
 #define ACHIEVEMENT_VAN_ESCAPE_TRIPWIRE_TRAPS 504
 #define ACHIEVEMENT_VAN_MASTER_OF_PARABOLA 505
 #define ACHIEVEMENT_VAN_BETTER_THAN_FREEMAN 506
-#define ACHIEVEMENT_VAN_THREE_BARNACLES 507
+#define ACHIEVEMENT_VAN_BON_APPETITE 507
 #define ACHIEVEMENT_VAN_RIDE_THE_WAVES 508
 #define ACHIEVEMENT_VAN_KILL_FINAL_ZOMBIE 509
 #define ACHIEVEMENT_VAN_LOCATE_LAMBDA_CACHES 510
@@ -29,6 +29,8 @@
 #define ACHIEVEMENT_VAN_DJ_PRIDE_OF_THE_COMBINE 556
 #define ACHIEVEMENT_VAN_DJ_DIE_HARD 557
 #define ACHIEVEMENT_VAN_DJ_MISER 558
+
+#define ACHIEVEMENT_VAN_DJ_GUARDIAN_ANGEL 559
 
 #define SPAWNFLAG_ZOMBIE_SOUL_LOST (65536)
 #define SPAWNFLAG_ZOMBIE_FINAL_ZOMBIE (131072)
@@ -157,17 +159,51 @@ class CAchievementVanishingBetterThanFreeman : public CFailableAchievement {
 
 };
 
+class CAchievementVanishingBonAppetite : public CBaseAchievement {
+	DECLARE_CLASS(CAchievementVanishingBonAppetite, CBaseAchievement);
+	public:
+	CAchievementVanishingBonAppetite()
+		: m_iKilled(0), m_pLastInflictor(nullptr) {
+	}
+	void Init() override {
+		m_iKilled = 0;
+		m_pLastInflictor = nullptr;
+		SetGoal(1);
+		SetFlags(ACH_LISTEN_PLAYER_KILL_ENEMY_EVENTS | ACH_SAVE_WITH_GAME);
+		SetInflictorFilter("npc_grenade_frag");
+	}
+	void Event_EntityKilled(CBaseEntity *pVictim, CBaseEntity *pAttacker, CBaseEntity *pInflictor, IGameEvent *event) override {
+		if (pAttacker->Classify() != CLASS_PLAYER) {
+			m_iKilled = 0;
+			return;
+		}
+		if (pVictim->Classify() != CLASS_BARNACLE) {
+			m_iKilled = 0;
+			return;
+		}
+		if (pInflictor != m_pLastInflictor) {
+			m_pLastInflictor = pInflictor;
+			m_iKilled = 1;
+			return;
+		}
+		++m_iKilled;
+		if (m_iKilled == 3) {
+			IncrementCount();
+		}
+	}
+	private:
+	int m_iKilled;
+	CBaseEntity *m_pLastInflictor;
+};
+
 class CAchievementVanishingCountAgain : public CBaseAchievement {
 	DECLARE_CLASS(CAchievementVanishingCountAgain, CBaseAchievement);
 	public:
-	CAchievementVanishingCountAgain() = default;
-
 	void Init() override {
 		SetGoal(1);
 		SetFlags(ACH_LISTEN_PLAYER_KILL_ENEMY_EVENTS | ACH_SAVE_WITH_GAME);
 		SetMapNameFilter("v5_choice_02");
 	}
-
 	void Event_EntityKilled(CBaseEntity *pVictim, CBaseEntity *pAttacker, CBaseEntity *pInflictor, IGameEvent *event) override {
 		if (pAttacker->Classify() != CLASS_PLAYER) {
 			return;
@@ -305,7 +341,7 @@ class CAchievementVanishingMirrorsEdge : public CFailableAchievement {
 
 	const char *GetActivationEventName() override {
 		return "VAN_MIRRORS_EDGE_START";
-	}
+}
 
 	const char *GetEvaluationEventName() override {
 		return "VAN_MIRRORS_EDGE_END";
@@ -354,16 +390,41 @@ class CAchievementVanishingMiser : public CDoomJudgementPointSpentAchievement {
 	}
 };
 
+class CAchievementVanishingDJGuardianAngel : public CFailableAchievement {
+	DECLARE_CLASS(CDoomJudgementPointSpentAchievement, CFailableAchievement);
+	public:
+	void Init() override {
+		SetFlags(ACH_LISTEN_KILL_EVENTS | ACH_SAVE_WITH_GAME);
+		SetMapNameFilter("lq_city21_after");
+	}
+	const char *GetActivationEventName() override {
+		return "VAN_DJ_GUARDIAN_ANGEL_START";
+	}
+	const char *GetEvaluationEventName() override {
+		return "VAN_DJ_GUARDIAN_ANGEL_END";
+	}
+	void Event_EntityKilled(CBaseEntity *pVictim, CBaseEntity *pAttacker, CBaseEntity *pInflictor, IGameEvent *event) override {
+		if (pAttacker->Classify() != CLASS_ANTLION) {
+			return;
+		}
+		if (pVictim->Classify() != CLASS_COMBINE) {
+			return;
+		}
+		SetFailed();
+	}
+};
+
 #define DECLARE_ACHIEVEMENT_HIDDEN(classname, achievementID, achievementName, iPointValue) \
 	DECLARE_ACHIEVEMENT_(classname, achievementID, achievementName, NULL, iPointValue, true)
 
-#define DECLARE_ACC_ACH(id, name, points, acc) \
+#define DECLARE_DJ_ACC_ACH(id, name, points, acc) \
 	class CVanishingAccumulativeAchievement##id : public CBaseAchievement { \
 		DECLARE_CLASS(CVanishingAccumulativeAchievement##id, CBaseAchievement); \
 		public: \
 		CVanishingAccumulativeAchievement##id() = default; \
 		void Init() override { \
 			SetFlags(ACH_SAVE_WITH_GAME); \
+			SetMapNameFilter("lq_city21_after"); \
 			SetGoal(acc); \
 		} \
 	}; \
@@ -376,8 +437,7 @@ DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_VAN_FINISH_CHAPTER_3, "VAN_FINISH_CHAP
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_VAN_ESCAPE_TRIPWIRE_TRAPS, "VAN_PRECISE_OPERATION", 5);
 DECLARE_ACHIEVEMENT(CAchievementVanishingMasterOfParabola, ACHIEVEMENT_VAN_MASTER_OF_PARABOLA, "VAN_MASTER_OF_PARABOLA", 10);
 DECLARE_ACHIEVEMENT(CAchievementVanishingBetterThanFreeman, ACHIEVEMENT_VAN_BETTER_THAN_FREEMAN, "VAN_BETTER_THAN_FREEMAN", 10);
-// TODO
-DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_VAN_THREE_BARNACLES, "VAN_BON_APPETITE", 5);
+DECLARE_ACHIEVEMENT(CAchievementVanishingBonAppetite, ACHIEVEMENT_VAN_BON_APPETITE, "VAN_BON_APPETITE", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_VAN_RIDE_THE_WAVES, "VAN_RIDE_THE_WAVES", 5);
 DECLARE_ACHIEVEMENT(CAchievementVanishingCountAgain, ACHIEVEMENT_VAN_KILL_FINAL_ZOMBIE, "VAN_COUNT_AGAIN", 5);
 // TODO
@@ -390,13 +450,15 @@ DECLARE_MAP_EVENT_ACHIEVEMENT_HIDDEN(ACHIEVEMENT_VAN_WATERMELON, "VAN_WATERMELON
 DECLARE_ACHIEVEMENT_HIDDEN(CAchievementVanishingShhhh, ACHIEVEMENT_VAN_FREE_ZOMBIES, "VAN_SHHHH", 10);
 DECLARE_ACHIEVEMENT_HIDDEN(CAchievementVanishingMirrorsEdge, ACHIEVEMENT_VAN_PACIFIST_AND_RESISTANCE, "VAN_MIRRORS_EDGE", 20);
 
-DECLARE_ACC_ACH(ACHIEVEMENT_VAN_DJ_FINANCIAL_FREEDOM, "VAN_DJ_FINANCIAL_FREEDOM", 10, 20);
-DECLARE_ACC_ACH(ACHIEVEMENT_VAN_DJ_WORTH_IT, "VAN_DJ_WORTH_IT", 10, 500);
-DECLARE_ACC_ACH(ACHIEVEMENT_VAN_DJ_EXPENSES_PAY_OFF, "VAN_DJ_EXPENSES_PAY_OFF", 15, 1000);
-DECLARE_ACC_ACH(ACHIEVEMENT_VAN_DJ_SEEMS_PROMISING, "VAN_DJ_SEEMS_PROMISING", 5, 5);
+DECLARE_DJ_ACC_ACH(ACHIEVEMENT_VAN_DJ_FINANCIAL_FREEDOM, "VAN_DJ_FINANCIAL_FREEDOM", 10, 20);
+DECLARE_DJ_ACC_ACH(ACHIEVEMENT_VAN_DJ_WORTH_IT, "VAN_DJ_WORTH_IT", 10, 500);
+DECLARE_DJ_ACC_ACH(ACHIEVEMENT_VAN_DJ_EXPENSES_PAY_OFF, "VAN_DJ_EXPENSES_PAY_OFF", 15, 1000);
+DECLARE_DJ_ACC_ACH(ACHIEVEMENT_VAN_DJ_SEEMS_PROMISING, "VAN_DJ_SEEMS_PROMISING", 5, 5);
 DECLARE_ACHIEVEMENT(CAchievementVanishingStingy, ACHIEVEMENT_VAN_DJ_STINGY, "VAN_DJ_STINGY", 10);
-DECLARE_ACC_ACH(ACHIEVEMENT_VAN_DJ_PRIDE_OF_THE_COMBINE, "VAN_DJ_PRIDE_OF_THE_COMBINE", 10, 8);
+DECLARE_DJ_ACC_ACH(ACHIEVEMENT_VAN_DJ_PRIDE_OF_THE_COMBINE, "VAN_DJ_PRIDE_OF_THE_COMBINE", 10, 8);
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_VAN_DJ_DIE_HARD, "VAN_DJ_DIE_HARD", 15);
 DECLARE_ACHIEVEMENT(CAchievementVanishingMiser, ACHIEVEMENT_VAN_DJ_MISER, "VAN_DJ_MISER", 20);
+
+DECLARE_ACHIEVEMENT(CAchievementVanishingDJGuardianAngel, ACHIEVEMENT_VAN_DJ_GUARDIAN_ANGEL, "VAN_DJ_GUARDIAN_ANGEL", 20);
 
 #endif // GAME_DLL
