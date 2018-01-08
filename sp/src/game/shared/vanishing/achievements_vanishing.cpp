@@ -203,6 +203,8 @@ class CAchievementVanishingComingThrough : public CZombieFriendlyAchievement {
 
 };
 
+#define SPAWNFLAG_ZOMBIE_SOUL_LOST (65536)
+
 class CAchievementVanishingShhhh : public CBaseAchievement {
 
 	DECLARE_CLASS(CAchievementVanishingShareDarkness, CBaseAchievement);
@@ -222,7 +224,6 @@ class CAchievementVanishingShhhh : public CBaseAchievement {
 			return;
 		}
 
-#define SPAWNFLAG_ZOMBIE_SOUL_LOST (65536)
 		if (pVictim->GetSpawnFlags() & SPAWNFLAG_ZOMBIE_SOUL_LOST) {
 			IncrementCount();
 		}
@@ -263,10 +264,15 @@ class CAchievementVanishingMirrorsEdge : public CFailableAchievement {
 		case CLASS_METROPOLICE:
 		case CLASS_SCANNER:
 		case CLASS_STALKER:
-		case CLASS_ZOMBIE:
 		case CLASS_PROTOSNIPER:
 		case CLASS_COMBINE_HUNTER:
 			SetFailed();
+			break;
+		case CLASS_ZOMBIE:
+			// Don't conflict with the achievement...
+			if (!(pVictim->GetSpawnFlags() & SPAWNFLAG_ZOMBIE_SOUL_LOST)) {
+				SetFailed();
+			}
 			break;
 		case CLASS_COMBINE_GUNSHIP:
 		default:
