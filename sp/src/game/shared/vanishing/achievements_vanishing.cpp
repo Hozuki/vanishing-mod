@@ -214,6 +214,32 @@ class CAchievementVanishingCountAgain : public CBaseAchievement {
 	}
 };
 
+class CAchievementVanishingGeigerCounter : public CBaseAchievement {
+
+	DECLARE_CLASS(CAchievementVanishingGeigerCounter, CBaseAchievement);
+
+	public:
+
+	void Init() override {
+		const char *szComponents[] = {
+			"VAN_GEIGER_COUNTER_LAMBDA_01", "VAN_GEIGER_COUNTER_LAMBDA_02"
+		};
+		SetFlags(ACH_HAS_COMPONENTS | ACH_LISTEN_COMPONENT_EVENTS | ACH_SAVE_GLOBAL);
+		m_pszComponentNames = szComponents;
+		m_iNumComponents = ARRAYSIZE(szComponents);
+		SetComponentPrefix("VAN_GEIGER_COUNTER_LAMBDA");
+		SetGameDirFilter("Vanishing"); // mind the capital
+		SetGoal(m_iNumComponents);
+	}
+
+	//#ifndef _DEBUG
+	//	bool ShouldShowProgressNotification() override {
+	//		return false;
+	//	}
+	//#endif
+
+};
+
 class CZombieFriendlyAchievement : public CFailableAchievement {
 	DECLARE_CLASS(CZombieFriendlyAchievement, CFailableAchievement);
 	public:
@@ -349,6 +375,7 @@ class CDoomJudgementPointSpentAchievement : public CFailableAchievement {
 	public:
 	void Init() override {
 		SetFlags(ACH_LISTEN_MAP_EVENTS | ACH_SAVE_WITH_GAME);
+		SetMapNameFilter("lq_city21_after");
 	}
 	void ListenForEvents() override {
 		ListenForGameEvent("van_dj_point_spent");
@@ -412,7 +439,7 @@ class CAchievementVanishingDJGuardianAngel : public CFailableAchievement {
 #define DECLARE_ACHIEVEMENT_HIDDEN(classname, achievementID, achievementName, iPointValue) \
 	DECLARE_ACHIEVEMENT_(classname, achievementID, achievementName, NULL, iPointValue, true)
 
-#define DECLARE_DJ_ACC_ACH(id, name, points, acc) \
+#define DECLARE_DJ_ACC_ACH(id, name, points, acc, hideProgress) \
 	class CVanishingAccumulativeAchievement##id : public CBaseAchievement { \
 		DECLARE_CLASS(CVanishingAccumulativeAchievement##id, CBaseAchievement); \
 		public: \
@@ -421,6 +448,9 @@ class CAchievementVanishingDJGuardianAngel : public CFailableAchievement {
 			SetFlags(ACH_SAVE_WITH_GAME); \
 			SetMapNameFilter("lq_city21_after"); \
 			SetGoal(acc); \
+		} \
+		bool ShouldShowProgressNotification() override { \
+			return !(hideProgress); \
 		} \
 	}; \
 	DECLARE_ACHIEVEMENT(CVanishingAccumulativeAchievement##id, id, name, points);
@@ -435,8 +465,7 @@ DECLARE_ACHIEVEMENT(CAchievementVanishingBetterThanFreeman, ACHIEVEMENT_VAN_BETT
 DECLARE_ACHIEVEMENT(CAchievementVanishingBonAppetite, ACHIEVEMENT_VAN_BON_APPETITE, "VAN_BON_APPETITE", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_VAN_RIDE_THE_WAVES, "VAN_RIDE_THE_WAVES", 5);
 DECLARE_ACHIEVEMENT(CAchievementVanishingCountAgain, ACHIEVEMENT_VAN_KILL_FINAL_ZOMBIE, "VAN_COUNT_AGAIN", 5);
-// TODO
-DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_VAN_LOCATE_LAMBDA_CACHES, "VAN_GEIGER_COUNTER", 10);
+DECLARE_ACHIEVEMENT(CAchievementVanishingGeigerCounter, ACHIEVEMENT_VAN_LOCATE_LAMBDA_CACHES, "VAN_GEIGER_COUNTER", 10);
 
 DECLARE_ACHIEVEMENT_HIDDEN(CAchievementVanishingShareDarkness, ACHIEVEMENT_VAN_SHARE_DARKNESS, "VAN_SHARE_DARKNESS", 10);
 DECLARE_ACHIEVEMENT_HIDDEN(CAchievementVanishingComingThrough, ACHIEVEMENT_VAN_COMING_THROUGH, "VAN_COMING_THROUGH", 10);
@@ -445,12 +474,12 @@ DECLARE_MAP_EVENT_ACHIEVEMENT_HIDDEN(ACHIEVEMENT_VAN_WATERMELON, "VAN_WATERMELON
 DECLARE_ACHIEVEMENT_HIDDEN(CAchievementVanishingShhhh, ACHIEVEMENT_VAN_FREE_ZOMBIES, "VAN_SHHHH", 10);
 DECLARE_ACHIEVEMENT_HIDDEN(CAchievementVanishingMirrorsEdge, ACHIEVEMENT_VAN_PACIFIST_AND_RESISTANCE, "VAN_MIRRORS_EDGE", 20);
 
-DECLARE_DJ_ACC_ACH(ACHIEVEMENT_VAN_DJ_FINANCIAL_FREEDOM, "VAN_DJ_FINANCIAL_FREEDOM", 10, 20);
-DECLARE_DJ_ACC_ACH(ACHIEVEMENT_VAN_DJ_WORTH_IT, "VAN_DJ_WORTH_IT", 10, 500);
-DECLARE_DJ_ACC_ACH(ACHIEVEMENT_VAN_DJ_EXPENSES_PAY_OFF, "VAN_DJ_EXPENSES_PAY_OFF", 15, 1000);
-DECLARE_DJ_ACC_ACH(ACHIEVEMENT_VAN_DJ_SEEMS_PROMISING, "VAN_DJ_SEEMS_PROMISING", 5, 5);
+DECLARE_DJ_ACC_ACH(ACHIEVEMENT_VAN_DJ_FINANCIAL_FREEDOM, "VAN_DJ_FINANCIAL_FREEDOM", 10, 200, false);
+DECLARE_DJ_ACC_ACH(ACHIEVEMENT_VAN_DJ_WORTH_IT, "VAN_DJ_WORTH_IT", 10, 500, false);
+DECLARE_DJ_ACC_ACH(ACHIEVEMENT_VAN_DJ_EXPENSES_PAY_OFF, "VAN_DJ_EXPENSES_PAY_OFF", 15, 1000, false);
+DECLARE_DJ_ACC_ACH(ACHIEVEMENT_VAN_DJ_SEEMS_PROMISING, "VAN_DJ_SEEMS_PROMISING", 5, 5, true);
 DECLARE_ACHIEVEMENT(CAchievementVanishingStingy, ACHIEVEMENT_VAN_DJ_STINGY, "VAN_DJ_STINGY", 10);
-DECLARE_DJ_ACC_ACH(ACHIEVEMENT_VAN_DJ_PRIDE_OF_THE_COMBINE, "VAN_DJ_PRIDE_OF_THE_COMBINE", 10, 8);
+DECLARE_DJ_ACC_ACH(ACHIEVEMENT_VAN_DJ_PRIDE_OF_THE_COMBINE, "VAN_DJ_PRIDE_OF_THE_COMBINE", 10, 8, true);
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_VAN_DJ_DIE_HARD, "VAN_DJ_DIE_HARD", 15);
 DECLARE_ACHIEVEMENT(CAchievementVanishingMiser, ACHIEVEMENT_VAN_DJ_MISER, "VAN_DJ_MISER", 25); // this is extra hard...
 
