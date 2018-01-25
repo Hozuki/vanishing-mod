@@ -19,44 +19,51 @@
 #include "video/ivideoservices.h"
 
 
-class VideoPanel : public vgui::EditablePanel
-{
-	DECLARE_CLASS_SIMPLE( VideoPanel, vgui::EditablePanel );
-public:
+typedef void(*VideoPanelCallback)(const void *ptr);
 
-	VideoPanel( unsigned int nXPos, unsigned int nYPos, unsigned int nHeight, unsigned int nWidth, bool allowAlternateMedia = true );
+class VideoPanel : public vgui::EditablePanel {
+	DECLARE_CLASS_SIMPLE(VideoPanel, vgui::EditablePanel);
+	public:
 
-	virtual ~VideoPanel( void );
+	VideoPanel(unsigned int nXPos, unsigned int nYPos, unsigned int nHeight, unsigned int nWidth, bool allowAlternateMedia = true);
 
-	virtual void Activate( void );
-	virtual void Paint( void );
-	virtual void DoModal( void );
-	virtual void OnKeyCodeTyped( vgui::KeyCode code );
-	virtual void OnKeyCodePressed( vgui::KeyCode code );
-	virtual void OnClose( void );
-	virtual void GetPanelPos( int &xpos, int &ypos );
+	virtual ~VideoPanel(void);
 
-	void SetExitCommand( const char *pExitCommand )
-	{
-		if ( pExitCommand && pExitCommand[0] )
-		{
-			Q_strncpy( m_szExitCommand, pExitCommand, MAX_PATH );
+	virtual void Activate(void);
+	virtual void Paint(void);
+	virtual void DoModal(void);
+	virtual void OnKeyCodeTyped(vgui::KeyCode code);
+	virtual void OnKeyCodePressed(vgui::KeyCode code);
+	virtual void OnClose(void);
+	virtual void GetPanelPos(int &xpos, int &ypos);
+
+	void SetExitCommand(const char *pExitCommand) {
+		if (pExitCommand && pExitCommand[0]) {
+			Q_strncpy(m_szExitCommand, pExitCommand, MAX_PATH);
 		}
 	}
 
-	bool BeginPlayback( const char *pFilename );
+	bool BeginPlayback(const char *pFilename);
 
-	void SetBlackBackground( bool bBlack ){ m_bBlackBackground = bBlack; }
+	void SetBlackBackground(bool bBlack) { m_bBlackBackground = bBlack; }
 
-protected:
+	void SetExitCallback(VideoPanelCallback callback) {
+		m_pExitCallback = callback;
+	}
 
-	virtual void OnTick( void ) { BaseClass::OnTick(); }
-	virtual void OnCommand( const char *pcCommand ) { BaseClass::OnCommand( pcCommand ); }
-	virtual void OnVideoOver(){}
+	void SetExitCallbackData(const void *pData) {
+		m_pExitCallbackData = pData;
+	}
 
-protected:
-	IVideoMaterial *m_VideoMaterial;
-	
+	protected:
+
+	virtual void OnTick(void) { BaseClass::OnTick(); }
+	virtual void OnCommand(const char *pcCommand) { BaseClass::OnCommand(pcCommand); }
+	virtual void OnVideoOver() {}
+
+	protected:
+	IVideoMaterial * m_VideoMaterial;
+
 	IMaterial		*m_pMaterial;
 	int				m_nPlaybackHeight;			// Calculated to address ratio changes
 	int				m_nPlaybackWidth;
@@ -67,13 +74,16 @@ protected:
 
 	bool			m_bBlackBackground;
 	bool			m_bAllowAlternateMedia;
+
+	VideoPanelCallback m_pExitCallback;
+	const void *m_pExitCallbackData;
 };
 
 
 // Creates a VGUI panel which plays a video and executes a client command at its finish (if specified)
-extern bool VideoPanel_Create( unsigned int nXPos, unsigned int nYPos, 
-							   unsigned int nWidth, unsigned int nHeight, 
-							   const char *pVideoFilename, 
-							   const char *pExitCommand = NULL );
+extern bool VideoPanel_Create(unsigned int nXPos, unsigned int nYPos,
+	unsigned int nWidth, unsigned int nHeight,
+	const char *pVideoFilename,
+	const char *pExitCommand = NULL);
 
 #endif // VGUI_VIDEO_H

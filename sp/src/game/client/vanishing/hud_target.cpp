@@ -41,7 +41,7 @@ static void HudSetTargetPos(const CCommand &args) {
 	g_pHudTargetElement->SetTargetState(i, true, target);
 }
 
-static ConCommand hud_set_target_state("hud_set_target_pos", HudSetTargetPos, "Set target position", FCVAR_DEVELOPMENTONLY);
+static ConCommand hud_set_target_pos("hud_set_target_pos", HudSetTargetPos, "Set target position", FCVAR_DEVELOPMENTONLY);
 
 static void HudListTargets() {
 	if (!g_pHudTargetElement) {

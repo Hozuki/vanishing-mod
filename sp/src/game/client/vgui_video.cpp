@@ -22,7 +22,9 @@ VideoPanel::VideoPanel( unsigned int nXPos, unsigned int nYPos, unsigned int nHe
 	m_VideoMaterial( NULL ),
 	m_nPlaybackWidth( 0 ),
 	m_nPlaybackHeight( 0 ),
-	m_bAllowAlternateMedia( allowAlternateMedia )
+	m_bAllowAlternateMedia( allowAlternateMedia ),
+	m_pExitCallback(nullptr),
+	m_pExitCallbackData(nullptr)
 {
 	vgui::VPANEL pParent = enginevgui->GetPanel( PANEL_ROOT );
 	SetParent( pParent );
@@ -213,6 +215,10 @@ void VideoPanel::OnClose( void )
 
 	vgui::surface()->RestrictPaintToSinglePanel( NULL );
 
+	if (m_pExitCallback) {
+		m_pExitCallback(m_pExitCallbackData);
+	}
+
 	// Fire an exit command if we're asked to do so
 	if ( m_szExitCommand[0] )
 	{
@@ -348,6 +354,30 @@ bool VideoPanel_Create( unsigned int nXPos, unsigned int nYPos,
 	// Start it going
 	if ( pVideoPanel->BeginPlayback( pVideoFilename ) == false )
 	{
+		delete pVideoPanel;
+		return false;
+	}
+
+	// Take control
+	pVideoPanel->DoModal();
+
+	return true;
+}
+
+bool VideoPanel_Create(unsigned int nXPos, unsigned int nYPos,
+	unsigned int nWidth, unsigned int nHeight,
+	const char *pVideoFilename,
+	VideoPanelCallback callback, void *ptr) {
+	// Create the base video panel
+	VideoPanel *pVideoPanel = new VideoPanel(nXPos, nYPos, nHeight, nWidth, false);
+	if (pVideoPanel == NULL)
+		return false;
+
+	pVideoPanel->SetExitCallback(callback);
+	pVideoPanel->SetExitCallbackData(ptr);
+
+	// Start it going
+	if (pVideoPanel->BeginPlayback(pVideoFilename) == false) {
 		delete pVideoPanel;
 		return false;
 	}

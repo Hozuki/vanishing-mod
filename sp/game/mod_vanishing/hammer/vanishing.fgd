@@ -69,3 +69,15 @@
     input IncrementBy(integer) : "Increment the achievement by a specific count."
     
 ]
+
+@PointClass base(Targetname) size(-8 -8 -8, 8 8 8) = ui_playvideo :
+    "Play video."
+[
+
+    Video(string) : "Video" : "ep1_recap" : "Video file name to play."
+    
+    input Play(void) : "Play video"
+    
+    output OnPlaybackFinished(void) : "Playback complete."
+
+]

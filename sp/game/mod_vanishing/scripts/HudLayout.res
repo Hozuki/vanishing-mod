@@ -726,6 +726,13 @@
 		"font"			"Default"
 		"maxchars"		"-1"
 	}
+    
+    HudPlayVideo
+    {
+        "fieldName" "HudPlayVideo"
+        "visible" "0"
+        "enabled" "1"
+    }
 
 	AchievementNotificationPanel	
 	{

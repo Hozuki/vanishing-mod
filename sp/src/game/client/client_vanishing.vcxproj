@@ -1276,6 +1276,7 @@ exit 1
     </ClCompile>
     <ClCompile Include="..\..\game\shared\vehicle_viewblend_shared.cpp" />
     <ClCompile Include="vanishing\hud_playerspeak.cpp" />
+    <ClCompile Include="vanishing\hud_playvideo.cpp" />
     <ClCompile Include="vanishing\hud_target.cpp" />
     <ClCompile Include="vanishing\playerspeak.cpp" />
     <ClCompile Include="vgui_avatarimage.cpp" />

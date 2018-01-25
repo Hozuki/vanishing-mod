@@ -10,4 +10,6 @@ void RegisterUserMessages_Vanishing() {
 	usermessages->Register("HudTargetHeaderUpdated", -1);
 	// hud_playerspeak.h
 	usermessages->Register("HudSentenceRequested", -1);
+	// hud_playvideo.cpp
+	usermessages->Register("VideoCommand", -1);
 }

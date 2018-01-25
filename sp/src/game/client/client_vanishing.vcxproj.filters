@@ -3403,6 +3403,7 @@
     <ClCompile Include="vanishing\hud_playerspeak.cpp" />
     <ClCompile Include="vanishing\hud_target.cpp" />
     <ClCompile Include="vanishing\playerspeak.cpp" />
+    <ClCompile Include="vanishing\hud_playvideo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\public\tier0\pointeroverride.asm">

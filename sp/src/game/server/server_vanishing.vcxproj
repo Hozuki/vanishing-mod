@@ -1276,6 +1276,7 @@ exit 1
     <ClCompile Include="vanishing\logic_achievement_increment.cpp" />
     <ClCompile Include="vanishing\logic_custom_event.cpp" />
     <ClCompile Include="vanishing\point_playerspeak.cpp" />
+    <ClCompile Include="vanishing\ui_playvideo.cpp" />
     <ClCompile Include="variant_t.cpp" />
     <ClCompile Include="vehicle_base.cpp" />
     <ClCompile Include="vehicle_baseserver.cpp" />

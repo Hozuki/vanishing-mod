@@ -26,4 +26,8 @@
     "van_dj_point_spent"
     {
     }
+    
+    "van_vidcmd_complete"
+    {
+    }
 }
